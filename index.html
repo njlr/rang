@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Rang by agauniyal</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Rang</h1>
+        <p>A Minimal, Header only Modern c++ library for colors in your terminal 💄✨</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/agauniyal/rang" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/agauniyal/rang/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/agauniyal/rang/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a id="rang---" class="anchor" href="#rang---" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>rang <a href="https://travis-ci.org/agauniyal/rang"><img src="https://travis-ci.org/agauniyal/rang.svg?branch=master" alt="Build Status"></a> <a href="https://ci.appveyor.com/project/agauniyal/rang"><img src="https://ci.appveyor.com/api/projects/status/jqpdoelli38h2a7w?svg=true" alt="Build status"></a> <a href="https://coveralls.io/github/agauniyal/rang?branch=master"><img src="https://coveralls.io/repos/github/agauniyal/rang/badge.svg?branch=master" alt="Coverage Status"></a>
+</h1>
+
+<h5>
+<a id="colors-for-your-terminal" class="anchor" href="#colors-for-your-terminal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Colors for your Terminal.</h5>
+
+<p><img src="https://cloud.githubusercontent.com/assets/7630575/13501282/0bd00074-e18c-11e5-9848-5bd1f20566d9.gif" alt="rang-demo"></p>
+
+<hr>
+
+<h2>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use it</h2>
+
+<h4>
+<a id="no-build-systempackage-manager" class="anchor" href="#no-build-systempackage-manager" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>No build system/package manager</h4>
+
+<ol>
+<li>You just need <a href="https://raw.githubusercontent.com/agauniyal/rang/master/include/rang.hpp">rang.hpp</a> from include directory, use it as <code>#include "rang.hpp"</code>
+</li>
+<li>Check out the <a href="https://github.com/agauniyal/rang/wiki">wiki</a> <del>&amp; maybe glance inside <strong><em><code>test</code></em></strong> directory to see some usage</del>
+</li>
+<li>???</li>
+<li>Profit!!</li>
+</ol>
+
+<h4>
+<a id="using-meson-build-system" class="anchor" href="#using-meson-build-system" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Meson build system</h4>
+
+<ul>
+<li>Use wrapdb to find rang dependency</li>
+<li>Place this code inside your primary <code>meson.build</code> - <code>rang_dep = dependency('rang', fallback : ['rang', 'rang_dep'])</code>
+</li>
+<li>Make sure to include <code>rang_dep</code> as dependency wherever you need it.</li>
+</ul>
+
+<h4>
+<a id="using-conan-package-manager" class="anchor" href="#using-conan-package-manager" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Conan package manager</h4>
+
+<ul>
+<li>search for rang package or goto - <a href="https://conan.io/source/rang/2.0/agauniyal/stable">https://conan.io/source/rang/2.0/agauniyal/stable</a>
+</li>
+<li>install the latest release - <code>conan install rang/2.0@agauniyal/stable</code>
+</li>
+<li>setup your <strong>conanfile.txt</strong> with - </li>
+</ul>
+
+<pre><code>[requires]
+rang/2.0@agauniyal/stable
+
+...
+</code></pre>
+
+<p>and <strong>CMakeLists.txt</strong> with -</p>
+
+<pre><code>INCLUDE(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+CONAN_BASIC_SETUP()
+
+ADD_EXECUTABLE(executable_name main.cpp)
+TARGET_LINK_LIBRARIES(executable_name ${CONAN_LIBS})
+</code></pre>
+
+<ul>
+<li>create build directory - <code>mkdir build &amp;&amp; cd build</code>
+</li>
+<li>install package and build - <code>conan install .. &amp;&amp; cmake .. &amp;&amp; make</code>
+</li>
+</ul>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/agauniyal">agauniyal</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
