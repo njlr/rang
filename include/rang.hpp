@@ -89,13 +89,11 @@ enum class bgB {
 	gray    = 107
 };
 
-enum class control {
-    autoColor = 0,
-    forceColor = 1
-};
+enum class control { autoColor = 0, forceColor = 1 };
 
 
 namespace rang_implementation {
+
 
 	inline std::streambuf const *&RANG_coutbuf()
 	{
@@ -115,30 +113,30 @@ namespace rang_implementation {
 		return pLogbuff;
 	}
 
-	inline std::atomic<bool>& isColorForced()
+
+	inline std::atomic<bool> &isColorForced()
 	{
-        static std::atomic<bool> flag(false);
+		static std::atomic<bool> flag(false);
 		return flag;
 	}
+
 
 	inline bool supportsColor()
 	{
 #if defined(OS_LINUX) || defined(OS_MAC)
-		static constexpr const char* Terms[] = {
+		static constexpr const char *Terms[] = {
 			"ansi", "color", "console", "cygwin", "gnome", "konsole", "kterm",
 			"linux", "msys", "putty", "rxvt", "screen", "vt100", "xterm"
 		};
 
-        static const char * env_p = std::getenv("TERM");
+		static const char *env_p = std::getenv("TERM");
 
-		static const bool result =
-            env_p == nullptr ? false : std::any_of(
-                std::begin(Terms),
-                std::end(Terms),
-                [](const char* term) {
-			        return std::strstr(env_p, term) != nullptr;
-		        }
-            );
+		static const bool result = (env_p == nullptr)
+		  ? false
+		  : std::any_of(
+		      std::begin(Terms), std::end(Terms), [](const char *term) {
+			      return std::strstr(env_p, term) != nullptr;
+			  });
 
 #elif defined(OS_WIN)
 		static constexpr bool result = true;
@@ -235,6 +233,7 @@ namespace rang_implementation {
 		return state;
 	}
 
+
 	template <typename T>
 	inline enableStd<T> setColor(std::ostream &os, T const value)
 	{
@@ -260,6 +259,7 @@ namespace rang_implementation {
 	    std::ostream &>::type;
 }
 
+
 void init()
 {
 	rang_implementation::RANG_coutbuf();
@@ -267,25 +267,28 @@ void init()
 	rang_implementation::RANG_clogbuf();
 }
 
+
 template <typename T>
 inline rang_implementation::enableStd<T> operator<<(
   std::ostream &os, T const value)
 {
 	std::streambuf const *osbuf = os.rdbuf();
-	return rang_implementation::isColorForced() || (
-        rang_implementation::supportsColor() &&
-	    rang_implementation::isTerminal(osbuf)
-    ) ? rang_implementation::setColor(os, value) : os;
+	return rang_implementation::isColorForced()
+	    || (rang_implementation::supportsColor()
+	    && rang_implementation::isTerminal(osbuf))
+	  ? rang_implementation::setColor(os, value)
+	  : os;
 }
+
 
 template <typename T>
 inline rang_implementation::enableControl<T> operator<<(
   std::ostream &os, T const value)
 {
 	if (value == rang::control::forceColor) {
-        rang_implementation::isColorForced() = true;
+		rang_implementation::isColorForced() = true;
 	} else if (value == rang::control::autoColor) {
-        rang_implementation::isColorForced() = false;
+		rang_implementation::isColorForced() = false;
 	}
 	return os;
 }
