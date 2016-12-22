@@ -26,6 +26,7 @@
 #include <iostream>
 #include <iterator>
 #include <type_traits>
+#include <atomic>
 
 namespace rang {
 
@@ -88,7 +89,10 @@ enum class bgB {
 	gray    = 107
 };
 
-enum class control { autoColor = 0, forceColor = 1 };
+enum class control {
+    autoColor = 0,
+    forceColor = 1
+};
 
 
 namespace rang_implementation {
@@ -111,12 +115,11 @@ namespace rang_implementation {
 		return pLogbuff;
 	}
 
-	inline int getIword()
+	inline std::atomic<bool>& isColorForced()
 	{
-		static int i = std::ios_base::xalloc();
-		return i;
+        static std::atomic<bool> flag(false);
+		return flag;
 	}
-
 
 	inline bool supportsColor()
 	{
@@ -126,15 +129,16 @@ namespace rang_implementation {
 			"linux", "msys", "putty", "rxvt", "screen", "vt100", "xterm"
 		};
 
-		const char *env_p = std::getenv("TERM");
-		if (env_p == nullptr) {
-			return false;
-		}
+        static const char * env_p = std::getenv("TERM");
 
-		static const bool result = std::any_of(
-		  std::begin(Terms), std::end(Terms), [&](const char* term) {
-			  return std::strstr(env_p, term) != nullptr;
-		  });
+		static const bool result =
+            env_p == nullptr ? false : std::any_of(
+                std::begin(Terms),
+                std::end(Terms),
+                [](const char* term) {
+			        return std::strstr(env_p, term) != nullptr;
+		        }
+            );
 
 #elif defined(OS_WIN)
 		static constexpr bool result = true;
@@ -268,11 +272,10 @@ inline rang_implementation::enableStd<T> operator<<(
   std::ostream &os, T const value)
 {
 	std::streambuf const *osbuf = os.rdbuf();
-	return (os.iword(rang_implementation::getIword())
-	         || ((rang_implementation::supportsColor())
-	         && (rang_implementation::isTerminal(osbuf))))
-	  ? rang_implementation::setColor(os, value)
-	  : os;
+	return rang_implementation::isColorForced() || (
+        rang_implementation::supportsColor() &&
+	    rang_implementation::isTerminal(osbuf)
+    ) ? rang_implementation::setColor(os, value) : os;
 }
 
 template <typename T>
@@ -280,9 +283,9 @@ inline rang_implementation::enableControl<T> operator<<(
   std::ostream &os, T const value)
 {
 	if (value == rang::control::forceColor) {
-		os.iword(rang_implementation::getIword()) = 1;
+        rang_implementation::isColorForced() = true;
 	} else if (value == rang::control::autoColor) {
-		os.iword(rang_implementation::getIword()) = 0;
+        rang_implementation::isColorForced() = false;
 	}
 	return os;
 }
