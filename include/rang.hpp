@@ -89,7 +89,7 @@ enum class bgB {
 	gray    = 107
 };
 
-enum class control { autoColor = 0, forceColor = 1 };
+enum class control { offColor = 0, autoColor = 1, forceColor = 2 };
 
 
 namespace rang_implementation {
@@ -114,10 +114,10 @@ namespace rang_implementation {
 	}
 
 
-	inline std::atomic<bool> &isColorForced()
+	inline std::atomic<int> &controlValue()
 	{
-		static std::atomic<bool> flag(false);
-		return flag;
+		static std::atomic<int> value(1);
+		return value;
 	}
 
 
@@ -272,12 +272,15 @@ template <typename T>
 inline rang_implementation::enableStd<T> operator<<(
   std::ostream &os, T const value)
 {
-	std::streambuf const *osbuf = os.rdbuf();
-	return rang_implementation::isColorForced()
-	    || (rang_implementation::supportsColor()
-	    && rang_implementation::isTerminal(osbuf))
-	  ? rang_implementation::setColor(os, value)
-	  : os;
+	switch (rang_implementation::controlValue()) {
+		case 0: return os;
+		case 1:
+			return rang_implementation::supportsColor()
+			    && rang_implementation::isTerminal(os.rdbuf())
+			  ? rang_implementation::setColor(os, value)
+			  : os;
+		case 2: return rang_implementation::setColor(os, value);
+	}
 }
 
 
@@ -285,10 +288,12 @@ template <typename T>
 inline rang_implementation::enableControl<T> operator<<(
   std::ostream &os, T const value)
 {
-	if (value == rang::control::forceColor) {
-		rang_implementation::isColorForced() = true;
+	if (value == rang::control::offColor) {
+		rang_implementation::controlValue() = 0;
 	} else if (value == rang::control::autoColor) {
-		rang_implementation::isColorForced() = false;
+		rang_implementation::controlValue() = 1;
+	} else if (value == rang::control::forceColor) {
+		rang_implementation::controlValue() = 2;
 	}
 	return os;
 }
