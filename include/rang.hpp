@@ -272,7 +272,8 @@ template <typename T>
 inline rang_implementation::enableStd<T> operator<<(
   std::ostream &os, T const value)
 {
-	switch (rang_implementation::controlValue()) {
+	const int option = rang_implementation::controlValue();
+	switch (option) {
 		case 0: return os;
 		case 1:
 			return rang_implementation::supportsColor()
