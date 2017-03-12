@@ -88,14 +88,10 @@ int main()
 	  << rang::style::reset << std::endl
 	  << rang::style::blink << "This text text has blink effect."
 	  << rang::style::reset << std::endl
-	  << rang::style::rblink << "This text text has rapid blink effect."
-	  << rang::style::reset << std::endl
 	  << rang::style::reversed << "This text is reversed." << rang::style::reset
 	  << std::endl
 	  << rang::style::conceal << "This text is concealed." << rang::style::reset
-	  << std::endl
-	  << rang::style::crossed << rang::fg::black << "This text is crossed."
-	  << rang::style::reset << std::endl;
+	  << std::endl;
 
 	return 0;
 }

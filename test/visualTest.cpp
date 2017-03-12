@@ -11,7 +11,6 @@ int main()
 	          << "Forced color mode - if you see colored text then rang works!"
 	          << rang::fg::reset << rang::bg::reset << std::endl
 	          << rang::control::offColor << rang::fg::red << rang::bg::gray
-	          << rang::style::crossed
 	          << "No colors/attributes should be visible on this text."
 	          << rang::fg::reset << rang::bg::reset << rang::style::reset
 
