@@ -963,7 +963,7 @@ namespace rang_implementation {
 
 
 	template <typename T>
-	inline enableStd<T> setColor(std::ostream &os, T const value)
+	inline enableStd<T> setColor(std::ostream &os, T const value, bool force)
 	{
 		HANDLE h = getConsoleHandle();
 		if (h && isTerminal(os.rdbuf())) {
