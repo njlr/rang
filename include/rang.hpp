@@ -829,13 +829,14 @@ namespace rang_implementation {
 		return value;
 	}
 
-
+#if defined(OS_LINUX) || defined(OS_MAC)
 	inline tdb::TermDb const &TermParser()
 	{
 		static const char *env_p = std::getenv("TERM");
 		static const tdb::TermDb parser((env_p == nullptr) ? "" : env_p);
 		return parser;
 	}
+#endif
 
 
 	inline bool detectColor()
@@ -1020,7 +1021,7 @@ namespace rang_implementation {
 }
 
 
-void init()
+inline void init()
 {
 	rang_implementation::RANG_coutbuf();
 	rang_implementation::RANG_cerrbuf();
