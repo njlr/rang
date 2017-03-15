@@ -1,0 +1,42 @@
+cxx_binary(
+  name = 'test',
+  header_namespace = '',
+  headers = [
+    'catch.hpp'
+  ],
+  srcs = [
+    'test.cpp',
+  ],
+  compiler_flags = [
+    '-std=c++14',
+  ],
+  deps = [
+    '//:rang',
+  ],
+)
+
+cxx_binary(
+  name = 'color-test',
+  srcs = glob([
+    'colortest.cpp',
+  ]),
+  compiler_flags = [
+    '-std=c++14',
+  ],
+  deps = [
+    '//:rang',
+  ],
+)
+
+cxx_binary(
+  name = 'visual-test',
+  srcs = glob([
+    'visualTest.cpp',
+  ]),
+  compiler_flags = [
+    '-std=c++14',
+  ],
+  deps = [
+    '//:rang',
+  ],
+)

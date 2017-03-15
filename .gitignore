@@ -28,3 +28,13 @@
 *.app
 
 build/
+
+# Test data
+/out.txt
+
+# Buck
+/buck-out/
+/.buckd/
+/buckaroo/
+.buckconfig.local
+BUCKAROO_DEPS
